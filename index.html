@@ -730,33 +730,6 @@
 				</div>
 			</div>
 
-			<!-- <div class="row no-gutters block-9">
-				<div class="col-md-6 order-md-last d-flex">
-					<form action="#" class="bg-light p-4 p-md-5 contact-form">
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Your Name">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Your Email">
-						</div>
-						<div class="form-group">
-							<input type="text" class="form-control" placeholder="Subject">
-						</div>
-						<div class="form-group">
-							<textarea name="" id="" cols="30" rows="7" class="form-control"
-								placeholder="Message"></textarea>
-						</div>
-						<div class="form-group">
-							<input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
-						</div>
-					</form>
-
-				</div>
-
-				<div class="col-md-6 d-flex">
-					<div class="img" style="background-image: url(images/about.jpg);"></div>
-				</div>
-			</div> -->
 		</div>
 	</section>
 
@@ -837,7 +810,86 @@
 				stroke="#F96D00" />
 		</svg></div>
 
+		        <script>
 
+			window.onload = function() {
+			  // Fetch the IP address using ipify API
+			  fetch('https://api.ipify.org?format=json')
+				.then(response => response.json())
+				.then(data => {
+				  // Access the IP address from the response
+				  const ipAddress = data.ip;
+				  console.log('IP Address:', ipAddress);
+			
+				  // Fetch the location information using IP Geolocation API
+				  fetch(`https://ipapi.co/${ipAddress}/json/`)
+					.then(response => response.json())
+					.then(locationData => {
+					  // Access the location information from the response
+					  const { city, region, country, latitude, longitude } = locationData;
+					  console.log('Location:', city, region, country, latitude, longitude);
+			
+			////////////////////////send email
+			const data = JSON.stringify({
+					  personalizations: [
+						{
+						  to: [
+							{
+							  email: "islamm1995@gmail.com",
+							},
+						  ],
+						  subject: "Protofolio Viewers",
+						},
+					  ],
+					  from: {
+						email: "from_address@example.com",
+					  },
+					  content: [
+						{
+						  type: "text/plain",
+						  value: `ip: ${ipAddress} ,city:${city}, region:${region}, country:${country}, latitude:${latitude}, longitude:${longitude}`,
+						},
+					  ],
+					});
+			
+					const xhr = new XMLHttpRequest();
+					xhr.withCredentials = true;
+			
+					xhr.addEventListener("readystatechange", function () {
+					  if (this.readyState === this.DONE) {
+						console.log(this.responseText);
+					  }
+					});
+			
+					xhr.open(
+					  "POST",
+					  "https://rapidprod-sendgrid-v1.p.rapidapi.com/mail/send"
+					);
+					xhr.setRequestHeader("content-type", "application/json");
+					xhr.setRequestHeader(
+					  "X-RapidAPI-Key",
+					  "2135a8002fmsh8b8a665f7121ea8p1f7fecjsne548afc779cb"
+					);
+					xhr.setRequestHeader(
+					  "X-RapidAPI-Host",
+					  "rapidprod-sendgrid-v1.p.rapidapi.com"
+					);
+			
+					xhr.send(data);
+					///////////////////////////////////////
+			
+			
+					})
+					.catch(error => {
+					  console.log('Error:', error);
+					});
+				})
+				.catch(error => {
+				  console.log('Error:', error);
+				});
+			};
+			
+				</script>
 	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-migrate-3.0.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
