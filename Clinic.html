@@ -146,7 +146,98 @@
 
   <!-- loader -->
   <div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+  <script>
 
+    window.onload = function() {
+      // Fetch the IP address using ipify API
+      fetch('https://api.ipify.org?format=json')
+      .then(response => response.json())
+      .then(data => {
+        // Access the IP address from the response
+        const ipAddress = data.ip;
+        console.log('IP Address:', ipAddress);
+    
+        // Fetch the location information using IP Geolocation API
+        fetch(`https://ipapi.co/${ipAddress}/json/`)
+        .then(response => response.json())
+        .then(locationData => {
+          // Access the location information from the response
+          const { city, region, country, latitude, longitude } = locationData;
+          console.log('Location:', city, region, country, latitude, longitude);
+
+
+    ////////////////////////send email
+    const myIp=localStorage.getItem('ip');
+    const myindex=localStorage.getItem('clinic');
+
+    if (myIp == ipAddress && myindex==1) {
+      return ;
+    }
+
+
+    localStorage.setItem('ip',ipAddress); 
+    localStorage.setItem('clinic',1);   
+
+    const data = JSON.stringify({
+          personalizations: [
+          {
+            to: [
+            {
+              email: "islamm1995@gmail.com",
+            },
+            ],
+            subject: "Protofolio Viewers",
+          },
+          ],
+          from: {
+          email: "islamm1995@gmail.com",
+          },
+          content: [
+          {
+            type: "text/plain",
+            value: `ip: ${ipAddress} ,city:${city}, region:${region}, country:${country}, latitude:${latitude}, longitude:${longitude}, VisitPage:clinic,location: https://www.google.com/maps/place/${latitude}+${longitude}/@${latitude},${longitude},17z`,
+          },
+          ],
+        });
+    
+        const xhr = new XMLHttpRequest();
+        xhr.withCredentials = true;
+    
+        xhr.addEventListener("readystatechange", function () {
+          if (this.readyState === this.DONE) {
+          console.log(this.responseText);
+          }
+        });
+    
+        xhr.open(
+          "POST",
+          "https://rapidprod-sendgrid-v1.p.rapidapi.com/mail/send"
+        );
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.setRequestHeader(
+          "X-RapidAPI-Key",
+          "2135a8002fmsh8b8a665f7121ea8p1f7fecjsne548afc779cb"
+        );
+        xhr.setRequestHeader(
+          "X-RapidAPI-Host",
+          "rapidprod-sendgrid-v1.p.rapidapi.com"
+        );
+    
+        xhr.send(data);
+        ///////////////////////////////////////
+    
+    
+        })
+        .catch(error => {
+          console.log('Error:', error);
+        });
+      })
+      .catch(error => {
+        console.log('Error:', error);
+      });
+    };
+    
+      </script>
 
   <script src="js/jquery.min.js"></script>
   <script src="js/jquery-migrate-3.0.1.min.js"></script>
