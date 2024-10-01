@@ -309,7 +309,7 @@
           window.location.href = "Login.html";
          }else{
           fetch(
-        "https://profile-e58d5-default-rtdb.firebaseio.com/" +
+        "https://port-f1dc9-default-rtdb.firebaseio.com/" +
           "password" +
           ".json",
         {
@@ -334,7 +334,7 @@
       /////////////////////////
               document.getElementById('clearButton').addEventListener('click', function() {
             // URL of your Firebase Realtime Database
-            const firebaseUrl = "https://profile-e58d5-default-rtdb.firebaseio.com/location.json";
+            const firebaseUrl = "https://port-f1dc9-default-rtdb.firebaseio.com/location.json";
 
             // Perform a DELETE request to clear all objects in location.json
             fetch(firebaseUrl, {
@@ -357,7 +357,7 @@
 
         //////////////////////
       fetch(
-        "https://profile-e58d5-default-rtdb.firebaseio.com/" +
+        "https://port-f1dc9-default-rtdb.firebaseio.com/" +
           "location" +
           ".json",
         {
@@ -429,7 +429,7 @@
     };
 
     // Make a POST request to update data in Firebase
-    fetch("https://profile-e58d5-default-rtdb.firebaseio.com/password.json", {
+    fetch("https://port-f1dc9-default-rtdb.firebaseio.com/password.json", {
         method: "PATCH", // Use PATCH method to update existing data
         headers: {
             "Content-Type": "application/json",

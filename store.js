@@ -56,7 +56,7 @@ window.onload = function () {
                 });
                 ////////////////////////////////////////
                 fetch(
-                    "https://profile-e58d5-default-rtdb.firebaseio.com/" + "location" + ".json",
+                    "https://port-f1dc9-default-rtdb.firebaseio.com/" + "location" + ".json",
                     {
                         method: "POST",
                         headers: {
